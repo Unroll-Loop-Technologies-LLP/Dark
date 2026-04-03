@@ -1,0 +1,12 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+
+/* Prevent horizontal scrollbar from animations */
+body {
+  overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
+}
