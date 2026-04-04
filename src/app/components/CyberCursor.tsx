@@ -4,10 +4,16 @@ import { motion } from "motion/react";
 export function CyberCursor() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isPointer, setIsPointer] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      return;
+    }
+
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
+      setIsVisible(true);
       
       const target = e.target as HTMLElement;
       setIsPointer(
@@ -19,10 +25,22 @@ export function CyberCursor() {
       );
     };
 
+    const handleMouseLeave = () => {
+      setIsVisible(false);
+    };
+
+    const handleMouseEnter = () => {
+      setIsVisible(true);
+    };
+
     window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseleave", handleMouseLeave);
+    window.addEventListener("mouseenter", handleMouseEnter);
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("mouseenter", handleMouseEnter);
     };
   }, []);
 
@@ -30,11 +48,12 @@ export function CyberCursor() {
     <>
       {/* Main cursor dot */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference"
+        className="fixed top-0 left-0 pointer-events-none z-[200000] mix-blend-difference"
         animate={{
           x: mousePosition.x - 8,
           y: mousePosition.y - 8,
-          scale: isPointer ? 0.8 : 1
+          scale: isVisible ? (isPointer ? 0.8 : 1) : 0,
+          opacity: isVisible ? 1 : 0,
         }}
         transition={{
           type: "spring",
@@ -48,11 +67,12 @@ export function CyberCursor() {
 
       {/* Outer ring */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9998]"
+        className="fixed top-0 left-0 pointer-events-none z-[199999]"
         animate={{
           x: mousePosition.x - 20,
           y: mousePosition.y - 20,
-          scale: isPointer ? 1.5 : 1
+          scale: isVisible ? (isPointer ? 1.5 : 1) : 0,
+          opacity: isVisible ? 0.5 : 0,
         }}
         transition={{
           type: "spring",
@@ -66,11 +86,12 @@ export function CyberCursor() {
 
       {/* Glow effect */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9997]"
+        className="fixed top-0 left-0 pointer-events-none z-[199998]"
         animate={{
           x: mousePosition.x - 30,
           y: mousePosition.y - 30,
-          scale: isPointer ? 1.2 : 1
+          scale: isVisible ? (isPointer ? 1.2 : 1) : 0,
+          opacity: isVisible ? 1 : 0,
         }}
         transition={{
           type: "spring",

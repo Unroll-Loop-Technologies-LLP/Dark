@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { Shield, Lock, Eye, FileCheck, AlertTriangle, KeyRound } from "lucide-react";
+import { openContact } from "../lib/contact-actions";
 
 export function SecurityHighlight() {
   const securityServices = [
@@ -125,13 +126,14 @@ export function SecurityHighlight() {
           viewport={{ once: true }}
           className="text-center mt-16"
         >
-          <a
-            href="#contact"
+          <button
+            type="button"
+            onClick={() => openContact("call")}
             className="inline-flex items-center gap-2 px-8 py-4 rounded-lg bg-gradient-to-r from-[#6C5CE7] to-[#00D4FF] text-white font-semibold shadow-lg shadow-[#6C5CE7]/50 hover:shadow-xl hover:shadow-[#6C5CE7]/70 transition-all hover:-translate-y-1"
           >
             <Shield className="w-5 h-5" />
             Schedule a Security Consultation
-          </a>
+          </button>
         </motion.div>
       </div>
     </section>

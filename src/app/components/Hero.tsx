@@ -1,15 +1,8 @@
 import { motion } from "motion/react";
 import { ArrowRight, Play } from "lucide-react";
+import { openContact, scrollToSection } from "../lib/contact-actions";
 
 export function Hero() {
-  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
-
   return (
     <section id="home" className="relative pt-32 pb-20 px-6 md:px-20 overflow-hidden">
       {/* Background Gradient Blur */}
@@ -34,18 +27,22 @@ export function Hero() {
             artificial intelligence, cybersecurity best practices, and world-class engineering.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <button className="group px-8 py-4 rounded-lg bg-gradient-to-r from-[#6C5CE7] to-[#00D4FF] text-white font-semibold flex items-center justify-center gap-2 shadow-lg shadow-[#6C5CE7]/50 hover:shadow-xl hover:shadow-[#6C5CE7]/70 transition-all hover:-translate-y-1">
+            <button
+              type="button"
+              onClick={() => openContact("message")}
+              className="group px-8 py-4 rounded-lg bg-gradient-to-r from-[#6C5CE7] to-[#00D4FF] text-white font-semibold flex items-center justify-center gap-2 shadow-lg shadow-[#6C5CE7]/50 hover:shadow-xl hover:shadow-[#6C5CE7]/70 transition-all hover:-translate-y-1"
+            >
               Get Started
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
-            <a
-              href="#case-studies"
-              onClick={(e) => handleScroll(e, "#case-studies")}
+            <button
+              type="button"
+              onClick={() => scrollToSection("#case-studies")}
               className="px-8 py-4 rounded-lg border border-white/10 text-white font-semibold flex items-center justify-center gap-2 hover:bg-white/5 transition-all hover:-translate-y-1"
             >
               <Play className="w-5 h-5" />
               View Case Studies
-            </a>
+            </button>
           </div>
         </motion.div>
 

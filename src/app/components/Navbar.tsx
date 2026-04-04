@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Logo } from "./Logo";
+import { openContact, scrollToSection } from "../lib/contact-actions";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,13 +14,11 @@ export function Navbar() {
     { name: "Contact", href: "#contact" }
   ];
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
+  const handleNavClick = (href: string) => {
     setIsMenuOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    requestAnimationFrame(() => {
+      scrollToSection(href);
+    });
   };
 
   return (
@@ -31,27 +30,31 @@ export function Navbar() {
       <div className="max-w-[1440px] mx-auto px-6 md:px-20">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#home" onClick={(e) => handleNavClick(e, "#home")} className="flex items-center gap-3">
+          <button type="button" onClick={() => handleNavClick("#home")} className="flex items-center gap-3">
             <Logo className="w-10 h-10" />
             <span className="text-xl font-bold text-white">UL</span>
-          </a>
+          </button>
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
+              <button
+                type="button"
                 key={link.name}
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
+                onClick={() => handleNavClick(link.href)}
                 className="text-gray-300 hover:text-white transition-colors"
               >
                 {link.name}
-              </a>
+              </button>
             ))}
           </div>
 
           {/* Desktop CTA Button */}
-          <button className="hidden md:block relative px-6 py-2.5 rounded-lg bg-gradient-to-r from-[#6C5CE7] to-[#00D4FF] text-white font-semibold overflow-hidden group">
+          <button
+            type="button"
+            onClick={() => openContact("message")}
+            className="hidden md:block relative px-6 py-2.5 rounded-lg bg-gradient-to-r from-[#6C5CE7] to-[#00D4FF] text-white font-semibold overflow-hidden group"
+          >
             <span className="relative z-10">Get Started</span>
             <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
           </button>
@@ -77,16 +80,20 @@ export function Navbar() {
           >
             <div className="px-6 py-4 space-y-4">
               {navLinks.map((link) => (
-                <a
+                <button
+                  type="button"
                   key={link.name}
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
+                  onClick={() => handleNavClick(link.href)}
                   className="block text-gray-300 hover:text-white transition-colors py-2"
                 >
                   {link.name}
-                </a>
+                </button>
               ))}
-              <button className="w-full px-6 py-2.5 rounded-lg bg-gradient-to-r from-[#6C5CE7] to-[#00D4FF] text-white font-semibold">
+              <button
+                type="button"
+                onClick={() => openContact("message")}
+                className="w-full px-6 py-2.5 rounded-lg bg-gradient-to-r from-[#6C5CE7] to-[#00D4FF] text-white font-semibold"
+              >
                 Get Started
               </button>
             </div>
