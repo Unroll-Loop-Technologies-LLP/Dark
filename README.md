@@ -22,4 +22,14 @@
   - the Express contact API on `http://localhost:3001`
 
   The contact form posts to `/api/contact`, verifies reCAPTCHA server-side, and sends email through Gmail SMTP.
+
+  ## Deploying
+
+  Vercel:
+  - The repo includes `api/contact.js` and `api/health.js` for Vercel Functions.
+
+  Netlify:
+  - The repo includes `netlify/functions/contact.js` and `netlify/functions/health.js`.
+  - `netlify.toml` routes `/api/contact` and `/api/health` to those functions.
+  - Set the same environment variables in Netlify site settings before deploying.
   
