@@ -90,9 +90,12 @@
       "optional": true
     }
   },
-  "pnpm": {
-    "overrides": {
-      "vite": "6.3.5"
-    }
+  "overrides": {
+  "lodash": "4.17.21"
+},
+"pnpm": {
+  "overrides": {
+    "vite": "6.3.5"
   }
+}
 }
