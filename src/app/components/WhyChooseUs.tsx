@@ -3,10 +3,10 @@ import { Award, Users, Clock, Globe } from "lucide-react";
 
 export function WhyChooseUs() {
   const stats = [
-    { icon: Award, value: "150+", label: "Projects Delivered" },
-    { icon: Users, value: "50+", label: "Expert Engineers" },
+    { icon: Award, value: "127+", label: "Projects Delivered" },
+    { icon: Users, value: "18+", label: "Expert Engineers" },
     { icon: Clock, value: "24/7", label: "Support Available" },
-    { icon: Globe, value: "30+", label: "Countries Served" },
+    { icon: Globe, value: "8+", label: "Countries Served" },
   ];
 
   return (
@@ -76,7 +76,7 @@ export function WhyChooseUs() {
 
               {/* Image with fallback */}
               <img
-                src="/images/Engineered.jpg" 
+                src="/images/Enginnered.jpg" // 🔥 replace
                 alt="Why Choose Us"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";

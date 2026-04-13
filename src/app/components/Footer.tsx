@@ -50,15 +50,77 @@ export function Footer() {
             </div>
 
             {/* Company */}
-            <div>
-              <h4 className="text-white font-bold mb-4">Company</h4>
-              <ul className="space-y-2">
-                <li><a href="#about" className="text-gray-400 hover:text-white transition-colors">About Us</a></li>
-                <li><a href="#case-studies" className="text-gray-400 hover:text-white transition-colors">Case Studies</a></li>
-                <li><a href="#contact" className="text-gray-400 hover:text-white transition-colors">Careers</a></li>
-                <li><a href="#case-studies" className="text-gray-400 hover:text-white transition-colors">Blog</a></li>
-              </ul>
-            </div>
+           <ul className="space-y-2">
+  <li>
+    <a href="#about" className="text-gray-400 hover:text-white transition-colors">
+      About Us
+    </a>
+  </li>
+
+  <li>
+    <a href="#case-studies" className="text-gray-400 hover:text-white transition-colors">
+      Case Studies
+    </a>
+  </li>
+
+  {/* Products */}
+             
+              <li>
+                <details className="group">
+                  <summary className="flex items-center justify-between cursor-pointer text-gray-400 hover:text-white transition-colors">
+                    Products
+                    <span className="ml-2 transition-transform group-open:rotate-180">
+                      ▼
+                    </span>
+                  </summary>
+            
+                  <ul className="mt-2 ml-4 space-y-2 border-l border-white/10 pl-3">
+                    
+                    <li>
+                      <a href="https://knowme.unrollloop.com/" className="flex items-center gap-2 text-gray-500 hover:text-white transition">
+                        <img src="https://unrollloop.com/favicon.svg" className="w-4 h-4 opacity-80" />
+                        Know your behaviour
+                      </a>
+                    </li>
+            
+                    <li>
+                      <a href="#coming-soon" className="flex items-center gap-2 text-gray-500 hover:text-white transition">
+                        <img src="https://unrollloop.com/favicon.svg" className="w-4 h-4 opacity-80" />
+                        Cloud Scans
+                      </a>
+                    </li>
+            
+                    <li>
+                      <a href="#coming-soon" className="flex items-center gap-2 text-gray-500 hover:text-white transition">
+                        <img src="https://unrollloop.com/favicon.svg" className="w-4 h-4 opacity-80" />
+                        Privacy Health Check
+                      </a>
+                    </li>
+            
+                    <li>
+                      <a href="#coming-soon" className="flex items-center gap-2 text-gray-500 hover:text-white transition">
+                        <img src="https://unrollloop.com/favicon.svg" className="w-4 h-4 opacity-80" />
+                        Personal Data Breaches
+                      </a>
+                    </li>
+            
+                  </ul>
+                </details>
+              </li>
+            
+              <li>
+                <a href="#contact" className="text-gray-400 hover:text-white transition-colors">
+                  Careers
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://blog.unrollloop.com" className="text-gray-400 hover:text-white transition-colors">
+                  Blog
+                </a>
+              </li>
+            </ul>
+          
 
             {/* Contact */}
             <div>
