@@ -99,7 +99,7 @@ export function Footer() {
             
                     <li>
                       <a href="#coming-soon" className="flex items-center gap-2 text-gray-500 hover:text-white transition">
-                        <img src="/icons/product4.svg" className="w-4 h-4 opacity-80" />
+                        <img src="https://unrollloop.com/favicon.svg" className="w-4 h-4 opacity-80" />
                         Personal Data Breaches
                       </a>
                     </li>
