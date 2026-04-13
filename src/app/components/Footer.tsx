@@ -56,7 +56,7 @@ export function Footer() {
                 <li><a href="#about" className="text-gray-400 hover:text-white transition-colors">About Us</a></li>
                 <li><a href="#case-studies" className="text-gray-400 hover:text-white transition-colors">Case Studies</a></li>
                 <li><a href="#contact" className="text-gray-400 hover:text-white transition-colors">Careers</a></li>
-                <li><a href="#case-studies" className="text-gray-400 hover:text-white transition-colors">Blog</a></li>
+                <li><a href="https://blog.unrollloop.com" className="text-gray-400 hover:text-white transition-colors">Blog</a></li>
               </ul>
             </div>
 
