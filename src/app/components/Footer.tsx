@@ -64,7 +64,7 @@ export function Footer() {
   </li>
 
   {/* Products */}
-             <div>
+             
               <li>
                 <details className="group">
                   <summary className="flex items-center justify-between cursor-pointer text-gray-400 hover:text-white transition-colors">
@@ -120,7 +120,7 @@ export function Footer() {
                 </a>
               </li>
             </ul>
-          </div>
+          
 
             {/* Contact */}
             <div>
