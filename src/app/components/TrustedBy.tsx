@@ -4,47 +4,47 @@ export function TrustedBy() {
   const companies = [
     {
       name: "Sony",
-      local: "/logos/sony.png",
+      local: "/images/sony.png",
       fallback: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Sony_logo.svg",
     },
     {
       name: "PlayStation",
-      local: "/logos/ps.png",
+      local: "/images/ps.png",
       fallback: "https://upload.wikimedia.org/wikipedia/commons/0/00/PlayStation_logo.svg",
     },
     {
       name: "HAL",
-      local: "/logos/hal.png",
+      local: "/images/hal.png",
       fallback: "https://upload.wikimedia.org/wikipedia/en/3/3e/Hindustan_Aeronautics_Limited_Logo.svg",
     },
     {
       name: "Accenture",
-      local: "/logos/accenture.png",
+      local: "/images/accenture.png",
       fallback: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Accenture_logo.svg",
     },
     {
       name: "Govt Of Karnataka",
-      local: "/logos/goe.png",
+      local: "/images/goe.png",
       fallback: "https://upload.wikimedia.org/wikipedia/commons/a/aa/Seal_of_Karnataka.svg",
     },
     {
       name: "OpenText",
-      local: "/logos/ot.png",
+      local: "/images/ot.png",
       fallback: "https://upload.wikimedia.org/wikipedia/commons/1/1b/OpenText_logo.svg",
     },
     {
       name: "SBI",
-      local: "/logos/sbi.png",
+      local: "/images/sbi.png",
       fallback: "https://upload.wikimedia.org/wikipedia/commons/c/cc/SBI-logo.svg",
     },
     {
       name: "Canara Bank",
-      local: "/logos/canara.png",
+      local: "/images/canara.png",
       fallback: "https://upload.wikimedia.org/wikipedia/commons/5/50/Canara_Bank_Logo.svg",
     },
     {
       name: "Cuttech",
-      local: "/logos/cuttech.png",
+      local: "/images/cuttech.png",
       fallback: "https://cuttech.solutions/CuttechSolLogo.png",
     },
   ];
