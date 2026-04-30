@@ -21,8 +21,17 @@ export function ProblemSection() {
   ];
 
   return (
-    <section className="py-20 px-6 md:px-20">
-      <div className="max-w-[1440px] mx-auto">
+    <section className="relative overflow-hidden py-20 px-6 md:px-20">
+      <img
+        src="/images/challenges.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      <div className="absolute inset-0 bg-[#0B0F1A]/78" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0B0F1A] via-[#0B0F1A]/70 to-[#0B0F1A]" />
+
+      <div className="relative z-10 max-w-[1440px] mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

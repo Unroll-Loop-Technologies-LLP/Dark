@@ -1,7 +1,10 @@
 import { motion } from "motion/react";
 import { Target, Lightbulb, Rocket, Heart } from "lucide-react";
+import { useState } from "react";
 
 export function About() {
+  const [showWhoWeAreImage, setShowWhoWeAreImage] = useState(true);
+
   const values = [
     {
       icon: Target,
@@ -82,6 +85,14 @@ export function About() {
                   <div className="h-32 rounded-2xl bg-gradient-to-br from-[#6C5CE7]/30 to-transparent border border-white/10" />
                 </div>
               </div>
+              {showWhoWeAreImage && (
+                <img
+                  src="/images/whoweare.jpg"
+                  alt="Unroll Loop Technologies team working together"
+                  onError={() => setShowWhoWeAreImage(false)}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              )}
             </div>
           </motion.div>
         </div>

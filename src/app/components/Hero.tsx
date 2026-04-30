@@ -4,7 +4,17 @@ import { openContact, scrollToSection } from "../lib/contact-actions";
 
 export function Hero() {
   return (
-    <section id="home" className="relative pt-32 pb-20 px-6 md:px-20 overflow-hidden">
+    <section id="home" className="relative pt-28 pb-20 px-6 md:px-20 overflow-hidden">
+      <img
+        src="/images/team.png"
+        alt=""
+        className="absolute inset-0 h-full w-full object-cover object-[68%_center]"
+        aria-hidden="true"
+      />
+      <div className="absolute inset-0 bg-[#0B0F1A]/55" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#020817] via-[#020817]/82 to-[#020817]/28" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F1A] via-transparent to-[#0B0F1A]/55" />
+
       {/* Background Gradient Blur */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#6C5CE7]/20 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute top-20 right-1/4 w-96 h-96 bg-[#00D4FF]/20 rounded-full blur-[100px] pointer-events-none" />
@@ -46,7 +56,7 @@ export function Hero() {
           </div>
         </motion.div>
 
-        {/* Right Column - Abstract Gradient Blobs */}
+        {/* Right Column - Image Tiles */}
         <motion.div
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -54,29 +64,34 @@ export function Hero() {
           className="relative hidden md:block"
         >
           <div className="relative w-full h-[500px]">
-            {/* Floating Cards */}
             <motion.div
               animate={{ y: [0, -20, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-0 right-0 w-64 h-64 rounded-3xl bg-gradient-to-br from-[#6C5CE7]/30 to-[#00D4FF]/30 backdrop-blur-xl border border-white/10 p-6"
+              className="absolute top-0 right-0 w-80 h-80 rounded-3xl bg-gradient-to-br from-[#6C5CE7]/30 to-[#00D4FF]/30 border border-white/10 overflow-hidden shadow-2xl shadow-[#00D4FF]/10"
             >
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#6C5CE7] to-[#00D4FF] mb-4" />
-              <div className="space-y-2">
-                <div className="h-3 bg-white/20 rounded w-3/4" />
-                <div className="h-3 bg-white/10 rounded w-1/2" />
-              </div>
+              <img
+                src="/images/tile1.jpg"
+                alt="Digital product interface preview"
+                onError={(event) => {
+                  event.currentTarget.style.display = "none";
+                }}
+                className="h-full w-full object-cover"
+              />
             </motion.div>
 
             <motion.div
               animate={{ y: [0, 20, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute bottom-0 left-0 w-64 h-64 rounded-3xl bg-gradient-to-br from-[#00D4FF]/30 to-[#6C5CE7]/30 backdrop-blur-xl border border-white/10 p-6"
+              className="absolute bottom-0 left-0 w-80 h-80 rounded-3xl bg-gradient-to-br from-[#00D4FF]/30 to-[#6C5CE7]/30 border border-white/10 overflow-hidden shadow-2xl shadow-[#6C5CE7]/10"
             >
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#00D4FF] to-[#6C5CE7] mb-4" />
-              <div className="space-y-2">
-                <div className="h-3 bg-white/20 rounded w-2/3" />
-                <div className="h-3 bg-white/10 rounded w-full" />
-              </div>
+              <img
+                src="/images/tile2.jpg"
+                alt="Engineering workflow preview"
+                onError={(event) => {
+                  event.currentTarget.style.display = "none";
+                }}
+                className="h-full w-full object-cover"
+              />
             </motion.div>
 
             <motion.div

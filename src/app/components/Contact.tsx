@@ -354,9 +354,6 @@ export function Contact() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-white">Protected by Google reCAPTCHA</p>
-                    <p className="text-sm text-gray-400">
-                      This helps block automated bot submissions before they reach your inbox.
-                    </p>
                   </div>
                 </div>
 
@@ -426,12 +423,8 @@ export function Contact() {
 
               <div className="mt-6 grid gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-gray-300">
                 <div className="flex items-center gap-3">
-                  <ShieldCheck className="h-4 w-4 text-[#00D4FF]" />
-                  reCAPTCHA completed before submission
-                </div>
-                <div className="flex items-center gap-3">
                   <Mail className="h-4 w-4 text-[#00D4FF]" />
-                  We&apos;ll follow up using {submittedEmail || "your email address"}
+                  We'll follow up using {submittedEmail || "your email address"}
                 </div>
                 {successMode === "call" ? (
                   <div className="flex items-center gap-3">
