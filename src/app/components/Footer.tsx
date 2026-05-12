@@ -126,7 +126,7 @@ export function Footer() {
             <div>
               <h4 className="text-white font-bold mb-4">Contact</h4>
               <ul className="space-y-2">
-                <li className="text-gray-400">Sathyojatha Arcade, 45/458, Srigandhada Kaval, Health Layout, Sunkadakatte, Bengaluru, Karnataka 560091 </li>
+                <li className="text-gray-400">Unroll Loop Technologies LLP Sathyojatha Arcade, 45/458, Srigandhada Kaval, Health Layout, Sunkadakatte, Bengaluru, Karnataka 560091 </li>
                 <li className="text-gray-400">+1 760 462 5955</li>
                 <li className="text-gray-400">contact@unrollloop.com</li>
               </ul>
