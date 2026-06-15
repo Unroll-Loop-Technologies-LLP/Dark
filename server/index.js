@@ -8,7 +8,7 @@ const port = Number(process.env.PORT || 3001);
 app.use(express.json({ limit: "100kb" }));
 
 app.use((req, res, next) => {
-  res.setHeader("Content-Security-Policy", "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.google.com https://www.gstatic.com https://www.recaptcha.net; connect-src 'self' https://www.google.com https://www.recaptcha.net; img-src 'self' data: https://www.google.com https://www.gstatic.com https://www.recaptcha.net; style-src 'self' 'unsafe-inline' https://www.gstatic.com; font-src 'self' data:");
+  res.setHeader("Content-Security-Policy", "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; frame-src 'self' https://www.google.com https://www.recaptcha.net; script-src 'self' https://www.google.com https://www.gstatic.com https://www.recaptcha.net; connect-src 'self' https://www.google.com https://www.recaptcha.net; img-src 'self' data: https://www.google.com https://www.gstatic.com https://www.recaptcha.net; style-src 'self' 'unsafe-inline' https://www.gstatic.com; font-src 'self' data:");
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
   res.setHeader("X-Content-Type-Options", "nosniff");
   res.setHeader("X-Frame-Options", "DENY");
@@ -20,7 +20,7 @@ app.use((req, res, next) => {
 app.get("/api/health", handleHealthRequest);
 app.post("/api/contact", handleContactRequest);
 
-app.all("*", (_req, res) => {
+app.use((_req, res) => {
   res.status(404).json({ error: "Not found." });
 });
 

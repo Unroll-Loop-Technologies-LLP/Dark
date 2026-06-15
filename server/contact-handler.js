@@ -62,7 +62,7 @@ async function verifyRecaptcha(token) {
 
   if (!secret) {
     const error = new Error("Missing RECAPTCHA_SECRET_KEY");
-    (error as any).status = 500;
+    Object.assign(error, { status: 500 });
     throw error;
   }
 
@@ -82,13 +82,13 @@ async function verifyRecaptcha(token) {
     });
   } catch (err) {
     const error = new Error("Failed to reach reCAPTCHA verification service.");
-    (error as any).status = 502;
+    Object.assign(error, { status: 502 });
     throw error;
   }
 
   if (!response.ok) {
     const error = new Error("Failed to verify reCAPTCHA");
-    (error as any).status = 502;
+    Object.assign(error, { status: 502 });
     throw error;
   }
 
@@ -97,7 +97,7 @@ async function verifyRecaptcha(token) {
 
 export function setSecurityHeaders(res) {
   const headers = {
-    "Content-Security-Policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.google.com https://www.gstatic.com https://www.recaptcha.net; connect-src 'self' https://www.google.com https://www.recaptcha.net; img-src 'self' data: https://www.google.com https://www.gstatic.com https://www.recaptcha.net; style-src 'self' 'unsafe-inline' https://www.gstatic.com; font-src 'self' data:",
+    "Content-Security-Policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; frame-src 'self' https://www.google.com https://www.recaptcha.net; script-src 'self' https://www.google.com https://www.gstatic.com https://www.recaptcha.net; connect-src 'self' https://www.google.com https://www.recaptcha.net; img-src 'self' data: https://www.google.com https://www.gstatic.com https://www.recaptcha.net; style-src 'self' 'unsafe-inline' https://www.gstatic.com; font-src 'self' data:",
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "DENY",
@@ -307,7 +307,7 @@ export async function handleContactRequest(req, res) {
     await transporter.sendMail(mailOptions);
     return sendJson(res, 200, { ok: true });
   } catch (error) {
-    const status = typeof (error as any)?.status === "number" ? (error as any).status : 500;
+    const status = typeof error?.status === "number" ? error.status : 500;
     console.error("Contact form submission failed:", error);
     return sendJson(res, status, { error: "Unable to send your message right now. Please try again later." });
   }
