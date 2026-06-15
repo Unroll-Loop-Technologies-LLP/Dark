@@ -17,6 +17,7 @@ import { CyberCursor } from "./components/CyberCursor";
 import { LoadingScreen } from "./components/LoadingScreen";
 import { useEffect, useState } from "react";
 import { AnimatePresence } from "motion/react";
+import { redirectToErrorPage } from "./lib/error-redirect";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,16 +26,31 @@ export default function App() {
   useEffect(() => {
     // Set page title
     document.title = "Unroll Loop - Secure Innovate Scale";
-    
+
     document.documentElement.style.scrollBehavior = "smooth";
-    
+
+    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
+      console.error("Unhandled promise rejection:", event.reason);
+      redirectToErrorPage((event.reason as any)?.status || 500);
+    };
+
+    const handleWindowError = (event: ErrorEvent) => {
+      console.error("Unhandled error:", event.error || event.message, event.filename, event.lineno, event.colno);
+      redirectToErrorPage(500);
+    };
+
+    window.addEventListener("unhandledrejection", handleUnhandledRejection);
+    window.addEventListener("error", handleWindowError);
+
     // Simulate loading
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 2500);
-    
+
     return () => {
       document.documentElement.style.scrollBehavior = "auto";
+      window.removeEventListener("unhandledrejection", handleUnhandledRejection);
+      window.removeEventListener("error", handleWindowError);
       clearTimeout(timer);
     };
   }, []);

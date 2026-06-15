@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { CalendarDays, CheckCircle2, Mail, MapPin, Phone, Send, ShieldCheck } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,6 +11,7 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import { onContactIntent } from "../lib/contact-actions";
+import { safeFetchJson } from "../lib/api-client";
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -42,7 +43,7 @@ export function Contact() {
     });
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!recaptchaSiteKey) {
@@ -64,7 +65,7 @@ export function Contact() {
     setSubmitError("");
 
     try {
-      const response = await fetch("/api/contact", {
+      const result = await safeFetchJson<{ ok?: boolean; error?: string }>("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -75,9 +76,7 @@ export function Contact() {
         }),
       });
 
-      const result = await response.json().catch(() => null);
-
-      if (!response.ok) {
+      if (!result?.ok) {
         throw new Error(result?.error || "Unable to send your message right now.");
       }
 

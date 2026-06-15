@@ -61,7 +61,9 @@ async function verifyRecaptcha(token) {
   const secret = process.env.RECAPTCHA_SECRET_KEY;
 
   if (!secret) {
-    throw new Error("Missing RECAPTCHA_SECRET_KEY");
+    const error = new Error("Missing RECAPTCHA_SECRET_KEY");
+    (error as any).status = 500;
+    throw error;
   }
 
   const body = new URLSearchParams({
@@ -69,19 +71,45 @@ async function verifyRecaptcha(token) {
     response: token,
   });
 
-  const response = await fetch("https://www.google.com/recaptcha/api/siteverify", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body,
-  });
+  let response;
+  try {
+    response = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body,
+    });
+  } catch (err) {
+    const error = new Error("Failed to reach reCAPTCHA verification service.");
+    (error as any).status = 502;
+    throw error;
+  }
 
   if (!response.ok) {
-    throw new Error("Failed to verify reCAPTCHA");
+    const error = new Error("Failed to verify reCAPTCHA");
+    (error as any).status = 502;
+    throw error;
   }
 
   return response.json();
+}
+
+export function setSecurityHeaders(res) {
+  const headers = {
+    "Content-Security-Policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.google.com https://www.gstatic.com https://www.recaptcha.net; connect-src 'self' https://www.google.com https://www.recaptcha.net; img-src 'self' data: https://www.google.com https://www.gstatic.com https://www.recaptcha.net; style-src 'self' 'unsafe-inline' https://www.gstatic.com; font-src 'self' data:",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+    "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), gyroscope=(), magnetometer=(), accelerometer=()",
+  };
+
+  if (typeof res.setHeader === "function") {
+    for (const [name, value] of Object.entries(headers)) {
+      res.setHeader(name, value);
+    }
+  }
 }
 
 function createTransporter() {
@@ -145,10 +173,13 @@ function getBody(req) {
 }
 
 export function handleHealthRequest(_req, res) {
+  setSecurityHeaders(res);
   return sendJson(res, 200, { ok: true });
 }
 
 export async function handleContactRequest(req, res) {
+  setSecurityHeaders(res);
+
   try {
     const body = getBody(req);
     const name = sanitizeValue(body?.name, 120);
@@ -276,7 +307,8 @@ export async function handleContactRequest(req, res) {
     await transporter.sendMail(mailOptions);
     return sendJson(res, 200, { ok: true });
   } catch (error) {
+    const status = typeof (error as any)?.status === "number" ? (error as any).status : 500;
     console.error("Contact form submission failed:", error);
-    return sendJson(res, 500, { error: "Unable to send your message right now. Please try again later." });
+    return sendJson(res, status, { error: "Unable to send your message right now. Please try again later." });
   }
 }
