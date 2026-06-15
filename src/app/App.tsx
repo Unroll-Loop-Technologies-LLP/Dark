@@ -15,12 +15,17 @@ import { Contact } from "./components/Contact";
 import { WhatsAppButton } from "./components/WhatsAppButton";
 import { CyberCursor } from "./components/CyberCursor";
 import { LoadingScreen } from "./components/LoadingScreen";
+import { PrivacyPage } from "./components/legal/PrivacyPage";
+import { TermsPage } from "./components/legal/TermsPage";
+import { CookiesPage } from "./components/legal/CookiesPage";
 import { useEffect, useState } from "react";
 import { AnimatePresence } from "motion/react";
 import { redirectToErrorPage } from "./lib/error-redirect";
+import { getCurrentRoute, isLegalRoute } from "./lib/routing";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [currentRoute, setCurrentRoute] = useState<string | null>(null);
 
   // Enable smooth scrolling
   useEffect(() => {
@@ -54,6 +59,55 @@ export default function App() {
       clearTimeout(timer);
     };
   }, []);
+
+  // Setup route listener
+  useEffect(() => {
+    const handleHashChange = () => {
+      const route = getCurrentRoute();
+      setCurrentRoute(route);
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    handleHashChange(); // Call immediately on mount
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, []);
+
+  // Render legal pages as full-page routes
+  if (currentRoute === "privacy") {
+    return (
+      <>
+        <CyberCursor />
+        <Navbar />
+        <PrivacyPage />
+        <WhatsAppButton />
+      </>
+    );
+  }
+
+  if (currentRoute === "terms") {
+    return (
+      <>
+        <CyberCursor />
+        <Navbar />
+        <TermsPage />
+        <WhatsAppButton />
+      </>
+    );
+  }
+
+  if (currentRoute === "cookies") {
+    return (
+      <>
+        <CyberCursor />
+        <Navbar />
+        <CookiesPage />
+        <WhatsAppButton />
+      </>
+    );
+  }
 
   return (
     <>
