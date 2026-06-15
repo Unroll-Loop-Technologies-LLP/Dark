@@ -1,8 +1,9 @@
 import { motion } from "motion/react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { ArrowRight, CalendarDays, CheckCircle2, Mail, ShieldCheck } from "lucide-react";
-import { useState } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import { openContact } from "../lib/contact-actions";
+import { safeFetchJson } from "../lib/api-client";
 import {
   Dialog,
   DialogContent,
@@ -34,7 +35,7 @@ export function CTASection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setScheduleForm((current) => ({
       ...current,
       [e.target.name]: e.target.value,
@@ -45,7 +46,7 @@ export function CTASection() {
     }
   };
 
-  const handleScheduleSubmit = async (e: React.FormEvent) => {
+  const handleScheduleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!recaptchaSiteKey) {
@@ -67,7 +68,7 @@ export function CTASection() {
     setSubmitError("");
 
     try {
-      const response = await fetch("/api/contact", {
+      const result = await safeFetchJson<{ ok?: boolean; error?: string }>("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -78,9 +79,7 @@ export function CTASection() {
         }),
       });
 
-      const result = await response.json().catch(() => null);
-
-      if (!response.ok) {
+      if (!result?.ok) {
         throw new Error(result?.error || "Unable to schedule your call right now.");
       }
 
