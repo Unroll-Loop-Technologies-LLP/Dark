@@ -1,14 +1,10 @@
 import { Github, Linkedin, Mail, Facebook, Instagram } from "lucide-react";
 import { Logo } from "./Logo";
-import { useState } from "react";
-import { PolicyModal } from "./PolicyModal";
+import { navigateTo } from "../lib/routing";
 
 export function Footer() {
-  const [policyModal, setPolicyModal] = useState<"privacy" | "terms" | "cookies" | null>(null);
-
   return (
-    <>
-      <footer className="py-16 px-6 md:px-20 border-t border-white/5">
+    <footer className="py-16 px-6 md:px-20 border-t border-white/5">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             {/* Company Info */}
@@ -152,27 +148,18 @@ export function Footer() {
               © 2024-2026 Unroll Loop Technologies. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm">
-              <button onClick={() => setPolicyModal("privacy")} className="text-gray-500 hover:text-white transition-colors">
+              <a href="#/privacy" onClick={(e) => { e.preventDefault(); navigateTo("privacy"); }} className="text-gray-500 hover:text-white transition-colors">
                 Privacy Policy
-              </button>
-              <button onClick={() => setPolicyModal("terms")} className="text-gray-500 hover:text-white transition-colors">
+              </a>
+              <a href="#/terms" onClick={(e) => { e.preventDefault(); navigateTo("terms"); }} className="text-gray-500 hover:text-white transition-colors">
                 Terms of Service
-              </button>
-              <button onClick={() => setPolicyModal("cookies")} className="text-gray-500 hover:text-white transition-colors">
+              </a>
+              <a href="#/cookies" onClick={(e) => { e.preventDefault(); navigateTo("cookies"); }} className="text-gray-500 hover:text-white transition-colors">
                 Cookie Policy
-              </button>
+              </a>
             </div>
           </div>
         </div>
       </footer>
-
-      {policyModal && (
-        <PolicyModal
-          isOpen={true}
-          onClose={() => setPolicyModal(null)}
-          type={policyModal}
-        />
-      )}
-    </>
-  );
-}
+    );
+  }
