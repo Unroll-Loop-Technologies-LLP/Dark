@@ -3,7 +3,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { ArrowRight, CalendarDays, CheckCircle2, Mail, ShieldCheck } from "lucide-react";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { openContact } from "../lib/contact-actions";
-import { safeFetchJson } from "../lib/api-client";
+import { fetchJsonWithStructuredError } from "../lib/api-client";
 import {
   Dialog,
   DialogContent,
@@ -68,7 +68,7 @@ export function CTASection() {
     setSubmitError("");
 
     try {
-      const result = await safeFetchJson<{ ok?: boolean; error?: string }>("/api/contact", {
+      const result = await fetchJsonWithStructuredError<{ ok?: boolean; error?: string }>("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -79,8 +79,18 @@ export function CTASection() {
         }),
       });
 
+      // Handle error responses (4xx status codes - recoverable errors)
+      if ("error" in result) {
+        setSubmitError(result.error || "Unable to schedule your call right now.");
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Handle success response
       if (!result?.ok) {
-        throw new Error(result?.error || "Unable to schedule your call right now.");
+        setSubmitError("Unable to schedule your call right now.");
+        setIsSubmitting(false);
+        return;
       }
 
       setSubmittedEmail(scheduleForm.email);
@@ -89,6 +99,7 @@ export function CTASection() {
       setIsScheduleOpen(false);
       setIsSuccessOpen(true);
     } catch (error) {
+      // Only reached on fatal 5xx errors after redirect attempt (unlikely)
       setSubmitError(
         error instanceof Error
           ? error.message

@@ -15,17 +15,15 @@ import { Contact } from "./components/Contact";
 import { WhatsAppButton } from "./components/WhatsAppButton";
 import { CyberCursor } from "./components/CyberCursor";
 import { LoadingScreen } from "./components/LoadingScreen";
-import { PrivacyPage } from "./components/legal/PrivacyPage";
-import { TermsPage } from "./components/legal/TermsPage";
-import { CookiesPage } from "./components/legal/CookiesPage";
+import { PolicyModal } from "./components/PolicyModal";
 import { useEffect, useState } from "react";
 import { AnimatePresence } from "motion/react";
 import { redirectToErrorPage } from "./lib/error-redirect";
-import { getCurrentRoute, isLegalRoute } from "./lib/routing";
+import { isLegalRoute } from "./lib/routing";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [currentRoute, setCurrentRoute] = useState<string | null>(null);
+  const [openLegalModal, setOpenLegalModal] = useState<"privacy" | "terms" | "cookies" | null>(null);
 
   // Enable smooth scrolling
   useEffect(() => {
@@ -60,11 +58,17 @@ export default function App() {
     };
   }, []);
 
-  // Setup route listener
+  // Sync legal modal state with URL hash
   useEffect(() => {
     const handleHashChange = () => {
-      const route = getCurrentRoute();
-      setCurrentRoute(route);
+      const hash = window.location.hash.slice(1); // Remove # prefix
+      const route = hash.startsWith("/") ? hash.slice(1) : null;
+
+      if (isLegalRoute(route)) {
+        setOpenLegalModal(route);
+      } else {
+        setOpenLegalModal(null);
+      }
     };
 
     window.addEventListener("hashchange", handleHashChange);
@@ -75,39 +79,11 @@ export default function App() {
     };
   }, []);
 
-  // Render legal pages as full-page routes
-  if (currentRoute === "privacy") {
-    return (
-      <>
-        <CyberCursor />
-        <Navbar />
-        <PrivacyPage />
-        <WhatsAppButton />
-      </>
-    );
-  }
-
-  if (currentRoute === "terms") {
-    return (
-      <>
-        <CyberCursor />
-        <Navbar />
-        <TermsPage />
-        <WhatsAppButton />
-      </>
-    );
-  }
-
-  if (currentRoute === "cookies") {
-    return (
-      <>
-        <CyberCursor />
-        <Navbar />
-        <CookiesPage />
-        <WhatsAppButton />
-      </>
-    );
-  }
+  const handleCloseLegalModal = () => {
+    setOpenLegalModal(null);
+    // Clear hash to return to normal landing page state
+    window.location.hash = "";
+  };
 
   return (
     <>
@@ -132,6 +108,15 @@ export default function App() {
         <CTASection />
         <Footer />
         <WhatsAppButton />
+
+        {/* Legal Modal - overlays landing page */}
+        {openLegalModal && (
+          <PolicyModal
+            isOpen={true}
+            onClose={handleCloseLegalModal}
+            type={openLegalModal}
+          />
+        )}
       </div>
     </>
   );

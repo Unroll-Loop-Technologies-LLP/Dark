@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import { onContactIntent } from "../lib/contact-actions";
-import { safeFetchJson } from "../lib/api-client";
+import { fetchJsonWithStructuredError } from "../lib/api-client";
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -65,7 +65,7 @@ export function Contact() {
     setSubmitError("");
 
     try {
-      const result = await safeFetchJson<{ ok?: boolean; error?: string }>("/api/contact", {
+      const result = await fetchJsonWithStructuredError<{ ok?: boolean; error?: string }>("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,8 +76,18 @@ export function Contact() {
         }),
       });
 
+      // Handle error responses (4xx status codes - recoverable errors)
+      if ("error" in result) {
+        setSubmitError(result.error || "Unable to send your message right now.");
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Handle success response
       if (!result?.ok) {
-        throw new Error(result?.error || "Unable to send your message right now.");
+        setSubmitError("Unable to send your message right now.");
+        setIsSubmitting(false);
+        return;
       }
 
       setSubmittedEmail(formData.email);
@@ -96,6 +106,7 @@ export function Contact() {
       });
       setCaptchaToken(null);
     } catch (error) {
+      // Only reached on fatal 5xx errors after redirect attempt (unlikely)
       setSubmitError(
         error instanceof Error
           ? error.message
